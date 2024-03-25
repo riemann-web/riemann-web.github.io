@@ -11,6 +11,7 @@
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -207,14 +208,15 @@
           <div class="rows is-centered ">
               <div class="row is-full-width">
                   <h2 class="title is-3"><span class="dvima">RiEMann Pipeline</span></h2>
-                  <!-- <img src="videos/pipeline.m4v" class="interpolation-image" alt=""
-                      style="display: block; margin-left: auto; margin-right: auto; max-width: 80%;" /> -->
-                      <video autoplay="" controls="" muted="" loop="" playsinline="" height="100%">
-                        <source src="videos/pipeline_cropped.mp4" type="video/mp4">
-                      </video>
+                  <img src="./static/images/network.jpg" class="interpolation-image" alt=""
+                      style="display: block; margin-left: auto; margin-right: auto; max-width: 80%;" />
                   <br>
                   <span style="font-size: 125%">
-                      <span style="font-weight: bold">RoboGen is a fully automated pipeline for endless and diverse skill acquisition.</span> RoboGen pipeline consists of 4 stages: A) task proposal, B) scene generation, C) training supervision generation, and D) skill learning with generated information.
+                    For a point cloud input of a scene, a type-0 saliency map is firstly outputted by an SE(3)-invariant
+                    backbone  \( φ \) to get a small point cloud region \( B_{ROI} \), and an SE(3)-equivariant policy network 
+                    that contains a translational heatmap network \( ψ_1 \) and an orientation network \( ψ_2 \) predicts the action vector 
+                    fields on the points of \( B_{ROI} \) . Finally, we perform softmax, mean pooling, and Iterative Modified Gram-Schmidt 
+                    orthogonalization to get the target action \( T \).
                   </span>
               </div>
           </div>
