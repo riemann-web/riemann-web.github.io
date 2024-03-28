@@ -267,8 +267,8 @@
               const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
               const renderer = new THREE.WebGLRenderer();
               renderer.setSize(window.innerWidth, window.innerHeight);
-              document.body.appendChild(renderer.domElement);
-
+              document.getElementById('canvas3d').appendChild(renderer.domElement); // 将渲染器添加到canvas元素中
+              
               // 将渲染器的背景色设置为白色
               renderer.setClearColor(0xffffff); // 使用十六进制颜色值，白色为0xffffff
 
