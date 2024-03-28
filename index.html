@@ -12,6 +12,10 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/PLYLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -89,15 +93,6 @@
                   <span>Paper</span>
                 </a>
               </span>
-              <span class="link-block">
-                <a href="https://riemann-web.github.io/"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
               <!-- Video Link. -->
               <span class="link-block">
                 <a href="https://riemann-web.github.io/"
@@ -118,15 +113,6 @@
                   <span>Code</span>
                   </a>
               </span>
-              <!-- Dataset Link. -->
-              <span class="link-block">
-                <a href="https://riemann-web.github.io/"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
             </div>
 
           </div>
@@ -151,7 +137,6 @@
   </div>
 </section>
 
-<br>
 <br>
 
 <section class="section">
@@ -233,6 +218,116 @@
       </div>
   </div>
 </section>
+
+<section class="section">
+  <div class="container is-max-widescreen">
+      <div class="rows">
+          <div class="rows is-centered ">
+              <div class="row is-full-width">
+                  <h2 class="title is-3"><span class="dvima">Zero-shot Generalization</span></h2>
+                  <span style="font-size: 125%">
+                    <p>
+                      We present the video, point cloud with predicted pose, position heatmap, and orientation vector fields of 
+                      mug and plane experiments to show the generalization ability of RiEMann to unseen SE(3) transformations, 
+                      distracting objects, and new object instances.
+                    </p>
+                  <br>
+                  </span>
+                  <video id="real-time" autoplay muted loop playsinline height="100%">
+                    <source src="./static/videos/real_time.mp4"
+                            type="video/mp4">
+                  </video>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Visual Effects. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Video</h2>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mug_all.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <!--/ Visual Effects. -->
+
+      <!-- Matting. -->
+      <div class="column">
+        <h2 class="title is-3">Predicted Target Pose</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <canvas id="canvas3d"></canvas>
+            <script>
+              const scene = new THREE.Scene();
+              const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+              const renderer = new THREE.WebGLRenderer();
+              renderer.setSize(window.innerWidth, window.innerHeight);
+              document.body.appendChild(renderer.domElement);
+
+              // 将渲染器的背景色设置为白色
+              renderer.setClearColor(0xffffff); // 使用十六进制颜色值，白色为0xffffff
+
+              // 添加环境光
+              const ambientLight = new THREE.AmbientLight(0x404040); // 软白光
+              scene.add(ambientLight);
+
+              // 添加定向光
+              const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+              directionalLight.position.set(0, 1, 1); // 位置调整以适应你的场景
+              scene.add(directionalLight);
+
+              // 加载OBJ模型
+              const objLoader = new THREE.OBJLoader();
+              objLoader.load('./static/models/pred_coord/mug_all.obj', function(object) {
+                  scene.add(object);
+              });
+
+              // 加载PLY点云
+              const plyLoader = new THREE.PLYLoader();
+              plyLoader.load('./static/models/scene_pcd/mug_all.ply', function(geometry) {
+                  const material = new THREE.PointsMaterial({ vertexColors: true, size: 0.01 });
+                  const points = new THREE.Points(geometry, material);
+                  scene.add(points);
+              });
+
+              // 设置相机位置
+              camera.position.z = 0.5;
+              camera.position.x = 0.;
+              camera.position.y = -0.5;
+
+              // 添加交互控制
+              const controls = new THREE.OrbitControls(camera, renderer.domElement);
+              controls.addEventListener('change', () => renderer.render(scene, camera));
+
+              function animate() {
+                  requestAnimationFrame(animate);
+                  controls.update();
+                  renderer.render(scene, camera);
+              }
+
+              animate();
+            </script>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--/ Matting. -->
+</section>
+
+
+
+
 
 <section class="section">
   <div class="container is-max-widescreen">
