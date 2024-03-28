@@ -7,33 +7,6 @@
         Manipulation without Point Cloud Segmentation.">
   <meta name="keywords" content="Equivariant Learning, Manipulation">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    .container {
-        display: flex; /* 使用Flexbox布局 */
-        justify-content: space-between; /* 左右对齐 */
-        align-items: flex-start; /* 垂直顶部对齐 */
-        width: 100%;
-        height: 100vh; /* 设置高度为视口高度，填满屏幕 */
-    }
-    .left-column {
-        flex: 1; /* 左边栏占据1/2的空间 */
-        padding: 20px;
-        background-color: #f0f0f0; /* 左边栏背景色 */
-    }
-    .right-column {
-        flex: 1; /* 右边栏占据1/2的空间 */
-        padding: 20px;
-        background-color: #e0e0e0; /* 右边栏背景色 */
-    }
-    video {
-        max-width: 100%; /* 视频宽度不超过容器宽度 */
-        height: auto; /* 保持视频比例 */
-    }
-    canvas {
-        width: 100%; /* 使3D可视化充满容器 */
-        height: 100%;
-    }
-  </style>  
   <title>RiEMann: Near Real-Time SE(3)-Equivariant Robot Manipulation without Point Cloud Segmentation</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -266,17 +239,30 @@
   </div>
 </section>
 
-<section class="container">
-  <div class="left-column">
-      <!-- 左边放置视频 -->
-      <video controls>
-          <source src="./static/videos/mug_all.mp4" type="video/mp4">
-      </video>
-  </div>
-  <div class="right-column">
-      <!-- 右边放置3D可视化 -->
-      <canvas id="canvas3d"></canvas>
-      <script>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Visual Effects. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Video</h2>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mug_all.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <!--/ Visual Effects. -->
+
+      <!-- Matting. -->
+      <div class="column">
+        <h2 class="title is-3">Predicted Target Pose</h2>
+          <div class="column content">
+            <canvas id="canvas3d"></canvas>
+            <script>
               const scene = new THREE.Scene();
               const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
               const renderer = new THREE.WebGLRenderer();
@@ -325,9 +311,18 @@
               }
 
               animate();
-    </script>
+            </script>
+          </div>
+
+        </div>
+    </div>
+    <!--/ Matting. -->
   </div>
 </section>
+
+
+
+
 
 <section class="section">
   <div class="container is-max-widescreen">
